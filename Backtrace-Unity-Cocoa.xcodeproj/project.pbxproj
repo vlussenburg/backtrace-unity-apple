@@ -1,0 +1,491 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 52;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		0BD10AFD25521FDF00275595 /* Backtrace-Unity */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 0BD10AFE25521FDF00275595 /* Build configuration list for PBXAggregateTarget "Backtrace-Unity" */;
+			buildPhases = (
+				0BD10B0125521FF100275595 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "Backtrace-Unity";
+			productName = "Backtrace-Unity";
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		0B08CB3C2558A0C800093E13 /* Backtrace_Unity_Cocoa_Mac.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B08CB3B2558A0C800093E13 /* Backtrace_Unity_Cocoa_Mac.h */; };
+		0B08CB3E2558A0C800093E13 /* Backtrace_Unity_Cocoa_Mac.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B08CB3D2558A0C800093E13 /* Backtrace_Unity_Cocoa_Mac.m */; };
+		0B08CB422558A0D900093E13 /* libCrashReporter-MacOSX-Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B08CB3325589D0C00093E13 /* libCrashReporter-MacOSX-Static.a */; };
+		0BD10AE72551878000275595 /* Backtrace_Unity_Cocoa.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD10AE62551878000275595 /* Backtrace_Unity_Cocoa.m */; };
+		0BD10AF22551B5F500275595 /* libCrashReporter-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BD10AF12551B5F400275595 /* libCrashReporter-iOS.a */; platformFilter = ios; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0BD10AE02551878000275595 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0B08CB3325589D0C00093E13 /* libCrashReporter-MacOSX-Static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libCrashReporter-MacOSX-Static.a"; path = "../../Downloads/PLCrashReporter-Static-1.7.2/libCrashReporter-MacOSX-Static.a"; sourceTree = "<group>"; };
+		0B08CB392558A0C800093E13 /* libBacktrace-Unity-Cocoa-Mac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libBacktrace-Unity-Cocoa-Mac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B08CB3B2558A0C800093E13 /* Backtrace_Unity_Cocoa_Mac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Backtrace_Unity_Cocoa_Mac.h; sourceTree = "<group>"; };
+		0B08CB3D2558A0C800093E13 /* Backtrace_Unity_Cocoa_Mac.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Backtrace_Unity_Cocoa_Mac.m; sourceTree = "<group>"; };
+		0BD10AE22551878000275595 /* libBacktrace-Unity-Cocoa.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libBacktrace-Unity-Cocoa.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0BD10AE62551878000275595 /* Backtrace_Unity_Cocoa.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Backtrace_Unity_Cocoa.m; sourceTree = "<group>"; };
+		0BD10AF12551B5F400275595 /* libCrashReporter-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libCrashReporter-iOS.a"; path = "../../Downloads/PLCrashReporter-Static-1.7.2/libCrashReporter-iOS.a"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0B08CB372558A0C800093E13 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B08CB422558A0D900093E13 /* libCrashReporter-MacOSX-Static.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0BD10ADF2551878000275595 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0BD10AF22551B5F500275595 /* libCrashReporter-iOS.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0B08CB3A2558A0C800093E13 /* Backtrace-Unity-Cocoa-Mac */ = {
+			isa = PBXGroup;
+			children = (
+				0B08CB3B2558A0C800093E13 /* Backtrace_Unity_Cocoa_Mac.h */,
+				0B08CB3D2558A0C800093E13 /* Backtrace_Unity_Cocoa_Mac.m */,
+			);
+			path = "Backtrace-Unity-Cocoa-Mac";
+			sourceTree = "<group>";
+		};
+		0BD10AD92551878000275595 = {
+			isa = PBXGroup;
+			children = (
+				0BD10AE42551878000275595 /* Backtrace-Unity-Cocoa */,
+				0B08CB3A2558A0C800093E13 /* Backtrace-Unity-Cocoa-Mac */,
+				0BD10AE32551878000275595 /* Products */,
+				0BD10AEE2551B44800275595 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		0BD10AE32551878000275595 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0BD10AE22551878000275595 /* libBacktrace-Unity-Cocoa.a */,
+				0B08CB392558A0C800093E13 /* libBacktrace-Unity-Cocoa-Mac.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0BD10AE42551878000275595 /* Backtrace-Unity-Cocoa */ = {
+			isa = PBXGroup;
+			children = (
+				0BD10AE62551878000275595 /* Backtrace_Unity_Cocoa.m */,
+			);
+			path = "Backtrace-Unity-Cocoa";
+			sourceTree = "<group>";
+		};
+		0BD10AEE2551B44800275595 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0B08CB3325589D0C00093E13 /* libCrashReporter-MacOSX-Static.a */,
+				0BD10AF12551B5F400275595 /* libCrashReporter-iOS.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		0B08CB352558A0C800093E13 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B08CB3C2558A0C800093E13 /* Backtrace_Unity_Cocoa_Mac.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		0B08CB382558A0C800093E13 /* Backtrace-Unity-Cocoa-Mac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0B08CB3F2558A0C800093E13 /* Build configuration list for PBXNativeTarget "Backtrace-Unity-Cocoa-Mac" */;
+			buildPhases = (
+				0B08CB352558A0C800093E13 /* Headers */,
+				0B08CB362558A0C800093E13 /* Sources */,
+				0B08CB372558A0C800093E13 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Backtrace-Unity-Cocoa-Mac";
+			productName = "Backtrace-Unity-Cocoa-Mac";
+			productReference = 0B08CB392558A0C800093E13 /* libBacktrace-Unity-Cocoa-Mac.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		0BD10AE12551878000275595 /* Backtrace-Unity-Cocoa */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0BD10AEB2551878000275595 /* Build configuration list for PBXNativeTarget "Backtrace-Unity-Cocoa" */;
+			buildPhases = (
+				0BD10ADE2551878000275595 /* Sources */,
+				0BD10ADF2551878000275595 /* Frameworks */,
+				0BD10AE02551878000275595 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Backtrace-Unity-Cocoa";
+			productName = "Backtrace-Unity-Cocoa";
+			productReference = 0BD10AE22551878000275595 /* libBacktrace-Unity-Cocoa.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0BD10ADA2551878000275595 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1170;
+				ORGANIZATIONNAME = Backtrace;
+				TargetAttributes = {
+					0B08CB382558A0C800093E13 = {
+						CreatedOnToolsVersion = 11.7;
+					};
+					0BD10AE12551878000275595 = {
+						CreatedOnToolsVersion = 11.7;
+					};
+					0BD10AFD25521FDF00275595 = {
+						CreatedOnToolsVersion = 11.7;
+					};
+				};
+			};
+			buildConfigurationList = 0BD10ADD2551878000275595 /* Build configuration list for PBXProject "Backtrace-Unity-Cocoa" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0BD10AD92551878000275595;
+			productRefGroup = 0BD10AE32551878000275595 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0BD10AE12551878000275595 /* Backtrace-Unity-Cocoa */,
+				0BD10AFD25521FDF00275595 /* Backtrace-Unity */,
+				0B08CB382558A0C800093E13 /* Backtrace-Unity-Cocoa-Mac */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0BD10B0125521FF100275595 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# 1: Declare variables\nRESULT_DIR=\"Backtrace-Cocoa-Unity-Universal\"\n\nBUILD_DIR_SIMULATOR=\"Debug-iphonesimulator\"\nBUILD_DIR_DEVICE=\"Debug-iphoneos\"\n\nLIB_NAME=\"Backtrace-Unity-Cocoa\"\nLIB_BINARY_NAME=\"lib$LIB_NAME.a\"\nLIB_BINARY_NAME_SIMULATOR=\"lib$LIB_NAME-simulator.a\"\nLIB_BINARY_NAME_DEVICE=\"lib$LIB_NAME-device.a\"\n\n\n# 2: BUILD\n#\n# Build for simulator\nxcodebuild -target $LIB_NAME -configuration ${CONFIGURATION} -sdk iphonesimulator -arch x86_64 BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n# Build for device\nxcodebuild -target $LIB_NAME ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n\n# 3: OPERATE THE BINARIES\n#\n# Move to the build directory\ncd $BUILD_DIR\n\n# Completely delete the result of the previous build if any\n# Suppress the error to avoid unnecessary logs\nrm -rf $BUILD_DIR/$RESULT_DIR 2> /dev/null\n\n# Create a new result directory\nmkdir $RESULT_DIR\n\n# Copy simulator's binary file to the result dir and rename it\ncp ./$BUILD_DIR_SIMULATOR/$LIB_BINARY_NAME ./$RESULT_DIR/$LIB_BINARY_NAME_SIMULATOR\n\n# Copy devices's binary file to the result dir and rename it\ncp ./$BUILD_DIR_DEVICE/$LIB_BINARY_NAME ./$RESULT_DIR/$LIB_BINARY_NAME_DEVICE\n\n# Make the library \"fat\", means \"universal\"\nlipo -create ./$RESULT_DIR/$LIB_BINARY_NAME_SIMULATOR ./$RESULT_DIR/$LIB_BINARY_NAME_DEVICE -output ./$RESULT_DIR/$LIB_BINARY_NAME\n\n# Delete simulator's binary file\nrm ./$RESULT_DIR/$LIB_BINARY_NAME_SIMULATOR\n\n# Delete device's binary file\nrm ./$RESULT_DIR/$LIB_BINARY_NAME_DEVICE\n\n# Delete build directory\nrm -rf $PROJECT_DIR/build\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0B08CB362558A0C800093E13 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B08CB3E2558A0C800093E13 /* Backtrace_Unity_Cocoa_Mac.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0BD10ADE2551878000275595 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0BD10AE72551878000275595 /* Backtrace_Unity_Cocoa.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0B08CB402558A0C800093E13 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3L37H443GZ;
+				EXECUTABLE_PREFIX = lib;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VALID_ARCHS = x86_64;
+			};
+			name = Debug;
+		};
+		0B08CB412558A0C800093E13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3L37H443GZ;
+				EXECUTABLE_PREFIX = lib;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VALID_ARCHS = x86_64;
+			};
+			name = Release;
+		};
+		0BD10AE92551878000275595 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "/Users/backtrace/Downloads/PLCrashReporter-Static-1.7.2/include";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = "/Users/backtrace/Downloads/PLCrashReporter-Static-1.7.2";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = (
+					"-fembed-bitcode",
+					"\n-fembed-bitcode",
+					"\n-fembed-bitcode",
+				);
+				SDKROOT = iphoneos;
+				VALID_ARCHS = "arm64 arm64e armv7 armv7s";
+			};
+			name = Debug;
+		};
+		0BD10AEA2551878000275595 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "/Users/backtrace/Downloads/PLCrashReporter-Static-1.7.2/include";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = "/Users/backtrace/Downloads/PLCrashReporter-Static-1.7.2";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				OTHER_CFLAGS = (
+					"-fembed-bitcode",
+					"\n-fembed-bitcode",
+					"\n-fembed-bitcode",
+				);
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "arm64 arm64e armv7 armv7s";
+			};
+			name = Release;
+		};
+		0BD10AEC2551878000275595 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3L37H443GZ;
+				HEADER_SEARCH_PATHS = "/Users/backtrace/Downloads/PLCrashReporter-Static-1.7.2/include";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 arm64e armv7 armv7s";
+			};
+			name = Debug;
+		};
+		0BD10AED2551878000275595 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3L37H443GZ;
+				HEADER_SEARCH_PATHS = "/Users/backtrace/Downloads/PLCrashReporter-Static-1.7.2/include";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 arm64e armv7 armv7s";
+			};
+			name = Release;
+		};
+		0BD10AFF25521FDF00275595 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3L37H443GZ;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		0BD10B0025521FDF00275595 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3L37H443GZ;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0B08CB3F2558A0C800093E13 /* Build configuration list for PBXNativeTarget "Backtrace-Unity-Cocoa-Mac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0B08CB402558A0C800093E13 /* Debug */,
+				0B08CB412558A0C800093E13 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0BD10ADD2551878000275595 /* Build configuration list for PBXProject "Backtrace-Unity-Cocoa" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0BD10AE92551878000275595 /* Debug */,
+				0BD10AEA2551878000275595 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0BD10AEB2551878000275595 /* Build configuration list for PBXNativeTarget "Backtrace-Unity-Cocoa" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0BD10AEC2551878000275595 /* Debug */,
+				0BD10AED2551878000275595 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0BD10AFE25521FDF00275595 /* Build configuration list for PBXAggregateTarget "Backtrace-Unity" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0BD10AFF25521FDF00275595 /* Debug */,
+				0BD10B0025521FDF00275595 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0BD10ADA2551878000275595 /* Project object */;
+}
