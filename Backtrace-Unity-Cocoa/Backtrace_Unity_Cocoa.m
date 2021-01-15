@@ -10,9 +10,9 @@ struct Entry {
 @interface Backtrace_Unity_Cocoa : NSObject
 + (Backtrace_Unity_Cocoa*)create:(const char*) rawUrl withAttributes:(NSMutableDictionary*) attributes;
 - (void)addAttibute:(const char*)key withValue:(const char*)value;
+- (void)nativeReport:(const char*) rawMessage;
 - (void) upload: (NSData*) data withAttributes:(NSDictionary*) attributes;
 - (void) sendPendingReports;
-+ (void) HandleAnr;
 + (void) Crash;
 + (NSMutableDictionary*)getAttibutes;
 @end
@@ -38,7 +38,7 @@ NSMutableDictionary *_attributes;
 /**
  Backtrace URL
  */
-const char* _backtraceUrl;
+NSURL* uploadUrl;
 // Return native iOS attributes
 // Attributes support doesn't require to use instance of BacktraceCrashReporter object
 // we still want to provide attributes when someone doesn't want to capture native crashes
@@ -143,7 +143,7 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
     }
     
     instance = [[Backtrace_Unity_Cocoa alloc] init];
-    _backtraceUrl = rawUrl;
+    uploadUrl = [NSURL URLWithString:[NSString stringWithUTF8String: rawUrl]];
     _attributes = attributes;
     
     // initialize Crash reporter
@@ -173,6 +173,18 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
     return _attributes;
     
 }
+
+- (void)nativeReport: (const char*) rawMessage {
+    NSData *data = [_crashReporter generateLiveReport];
+    NSMutableDictionary *attributes = [[[Backtrace_Unity_Cocoa current] getUnityAttributes] mutableCopy];
+    [attributes addEntriesFromDictionary:[Backtrace_Unity_Cocoa getAttibutes]];
+    if(rawMessage != NULL) {
+        [attributes setObject:[NSString stringWithUTF8String: rawMessage] forKey: @"error.message"];
+    }
+    
+    [instance upload:data withAttributes:attributes];
+}
+
 - (void)addAttibute:(const char*)key withValue:(const char*)value {
     [_attributes setObject:[NSString stringWithUTF8String: value] forKey:[NSString stringWithUTF8String: key]];
 }
@@ -199,11 +211,9 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
 }
 
 - (void) upload: (NSData*) crash withAttributes:(NSDictionary*) attributes {
-    NSString* uploadUrl = [NSString stringWithUTF8String: _backtraceUrl];
-    
     NSString *boundary = [@"Boundary-" stringByAppendingString: [[NSUUID UUID] UUIDString]];
 
-    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL: [NSURL URLWithString:uploadUrl]];
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL: uploadUrl];
     [req setHTTPMethod: @"POST"];
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
     [req setValue:contentType forHTTPHeaderField: @"Content-Type"];
@@ -249,13 +259,11 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
 
     return httpBody;
 }
-+ (void)HandleAnr {
-    printf("Handling ANR: Feature unsupported yet.");
-}
 
 + (void)Crash {
     NSArray *array = @[];
     NSObject *o = array[1];
+    NSLog(array[2] == o ? @"YES": @"NO");
 }
 @end
 
@@ -298,6 +306,14 @@ void GetAttibutes(struct Entry** entries, int* size) {
     *size = count;
 }
 
+void NativeReport(const char* message) {
+    // reporter is disabled
+       if(!reporter) {
+           return;
+       }
+    [reporter nativeReport:message];
+    
+}
 void AddAttribute(char* key, char* value) {
     // there is no reason to store attribuets when integration is disabled
     if(!reporter) {
@@ -309,9 +325,3 @@ void AddAttribute(char* key, char* value) {
 void Crash() {
     [Backtrace_Unity_Cocoa Crash];
 }
-
-void HandleAnr(){
-    [Backtrace_Unity_Cocoa HandleAnr];
-    
-}
-

@@ -219,7 +219,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# 1: Declare variables\nRESULT_DIR=\"Backtrace-Cocoa-Unity-Universal\"\n\nBUILD_DIR_SIMULATOR=\"Debug-iphonesimulator\"\nBUILD_DIR_DEVICE=\"Debug-iphoneos\"\n\nLIB_NAME=\"Backtrace-Unity-Cocoa\"\nLIB_BINARY_NAME=\"lib$LIB_NAME.a\"\nLIB_BINARY_NAME_SIMULATOR=\"lib$LIB_NAME-simulator.a\"\nLIB_BINARY_NAME_DEVICE=\"lib$LIB_NAME-device.a\"\n\n\n# 2: BUILD\n#\n# Build for simulator\nxcodebuild -target $LIB_NAME -configuration ${CONFIGURATION} -sdk iphonesimulator -arch x86_64 BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n# Build for device\nxcodebuild -target $LIB_NAME ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n\n# 3: OPERATE THE BINARIES\n#\n# Move to the build directory\ncd $BUILD_DIR\n\n# Completely delete the result of the previous build if any\n# Suppress the error to avoid unnecessary logs\nrm -rf $BUILD_DIR/$RESULT_DIR 2> /dev/null\n\n# Create a new result directory\nmkdir $RESULT_DIR\n\n# Copy simulator's binary file to the result dir and rename it\ncp ./$BUILD_DIR_SIMULATOR/$LIB_BINARY_NAME ./$RESULT_DIR/$LIB_BINARY_NAME_SIMULATOR\n\n# Copy devices's binary file to the result dir and rename it\ncp ./$BUILD_DIR_DEVICE/$LIB_BINARY_NAME ./$RESULT_DIR/$LIB_BINARY_NAME_DEVICE\n\n# Make the library \"fat\", means \"universal\"\nlipo -create ./$RESULT_DIR/$LIB_BINARY_NAME_SIMULATOR ./$RESULT_DIR/$LIB_BINARY_NAME_DEVICE -output ./$RESULT_DIR/$LIB_BINARY_NAME\n\n# Delete simulator's binary file\nrm ./$RESULT_DIR/$LIB_BINARY_NAME_SIMULATOR\n\n# Delete device's binary file\nrm ./$RESULT_DIR/$LIB_BINARY_NAME_DEVICE\n\n# Delete build directory\nrm -rf $PROJECT_DIR/build\n";
+			shellScript = "# 1: Declare variables\nRESULT_DIR=\"Universal-release\"\n\nBUILD_DIR_SIMULATOR=\"Release-iphonesimulator\"\nBUILD_DIR_DEVICE=\"Release-iphoneos\"\n\nLIB_NAME=\"Backtrace-Unity-Cocoa\"\nLIB_BINARY_NAME=\"lib$LIB_NAME.a\"\nLIB_BINARY_NAME_SIMULATOR=\"lib$LIB_NAME-simulator.a\"\nLIB_BINARY_NAME_DEVICE=\"lib$LIB_NAME-device.a\"\n\n\n# 2: BUILD\n#\n# Build for simulator\nxcodebuild -target \"${PROJECT_NAME}\" -arch x86_64  -configuration ${CONFIGURATION} BUILD_DIR=\"${BUILD_DIR_SIMULATOR}\" BUILD_ROOT=\"${BUILD_ROOT}\" clean build -sdk iphonesimulator\n\n\n# Build for device\nxcodebuild -target $LIB_NAME ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} clean build -sdk iphoneos  BUILD_DIR=\"${BUILD_DIR_DEVICE}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n\n# 3: OPERATE THE BINARIES\n#\n# Move to the build directory\ncd $BUILD_DIR\n\n# Completely delete the result of the previous build if any\n# Suppress the error to avoid unnecessary logs\n\nrm -rf $BUILD_DIR/$RESULT_DIR 2> /dev/null\n\n# Create a new result directory\nmkdir $RESULT_DIR\n\n# Copy simulator's binary file to the result dir and rename it\ncp ./$BUILD_DIR_SIMULATOR/$LIB_BINARY_NAME ./$RESULT_DIR/$LIB_BINARY_NAME_SIMULATOR\n\n# Copy devices's binary file to the result dir and rename it\ncp ./$BUILD_DIR_DEVICE/$LIB_BINARY_NAME ./$RESULT_DIR/$LIB_BINARY_NAME_DEVICE\n\n# Make the library \"fat\", means \"universal\"\nlipo -create ./$RESULT_DIR/$LIB_BINARY_NAME_SIMULATOR ./$RESULT_DIR/$LIB_BINARY_NAME_DEVICE -output ./$RESULT_DIR/$LIB_BINARY_NAME\n\n# Delete simulator's binary file\nrm ./$RESULT_DIR/$LIB_BINARY_NAME_SIMULATOR\n\n# Delete device's binary file\nrm ./$RESULT_DIR/$LIB_BINARY_NAME_DEVICE\n\n# Delete build directory\nrm -rf $PROJECT_DIR/build\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -403,6 +403,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3L37H443GZ;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = "/Users/backtrace/Downloads/PLCrashReporter-Static-1.7.2/include";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -417,6 +418,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3L37H443GZ;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = "/Users/backtrace/Downloads/PLCrashReporter-Static-1.7.2/include";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
