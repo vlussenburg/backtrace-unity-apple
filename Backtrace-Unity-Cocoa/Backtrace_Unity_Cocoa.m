@@ -9,8 +9,8 @@ struct Entry {
 
 @interface Backtrace_Unity_Cocoa : NSObject
 + (Backtrace_Unity_Cocoa*)create:(const char*) rawUrl withAttributes:(NSMutableDictionary*) attributes;
-- (void)addAttibute:(const char*)key withValue:(const char*)value;
-- (void)nativeReport:(const char*) rawMessage;
+- (void) addAttibute:(const char*)key withValue:(const char*)value;
+- (void) nativeReport:(const char*) rawMessage;
 - (void) upload: (NSData*) data withAttributes:(NSDictionary*) attributes;
 - (void) sendPendingReports;
 + (void) Crash;
@@ -112,9 +112,9 @@ NSURL* uploadUrl;
     BOOL isDir = NO;
     NSError *error;
     if (! [[NSFileManager defaultManager] fileExistsAtPath:backtraceDir isDirectory:&isDir]) {
-       return [[NSFileManager defaultManager]createDirectoryAtPath:backtraceDir withIntermediateDirectories:YES attributes:nil error:&error];
+        return [[NSFileManager defaultManager]createDirectoryAtPath:backtraceDir withIntermediateDirectories:YES attributes:nil error:&error];
     } else {
-       return isDir;
+        return isDir;
     }
 }
 
@@ -129,7 +129,7 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
         [attributes writeToFile:reportPath atomically:YES];
         NSLog(@"Stored attributes at path:%@", reportPath);
     } else {
-         NSLog(@"Cannot create storage dir:%@", backtraceDir);
+        NSLog(@"Cannot create storage dir:%@", backtraceDir);
     }
 }
 
@@ -150,7 +150,7 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
     PLCrashReporterSignalHandlerType signalHandlerType = PLCrashReporterSignalHandlerTypeBSD;
     PLCrashReporterSymbolicationStrategy symbolicationStrategy = PLCrashReporterSymbolicationStrategyAll;
     PLCrashReporterConfig *config = [[PLCrashReporterConfig alloc] initWithSignalHandlerType: signalHandlerType
-                                                                             symbolicationStrategy: symbolicationStrategy];
+                                                                       symbolicationStrategy: symbolicationStrategy];
     _crashReporter = [[PLCrashReporter alloc] initWithConfiguration: config];
     
     PLCrashReporterCallbacks cb = {
@@ -212,7 +212,7 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
 
 - (void) upload: (NSData*) crash withAttributes:(NSDictionary*) attributes {
     NSString *boundary = [@"Boundary-" stringByAppendingString: [[NSUUID UUID] UUIDString]];
-
+    
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL: uploadUrl];
     [req setHTTPMethod: @"POST"];
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
@@ -231,32 +231,32 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
             NSString* reportPath =[Backtrace_Unity_Cocoa getDefaultReportPath];
             NSError *error = nil;
             [[NSFileManager defaultManager] removeItemAtPath:reportPath error:&error];
-
+            
         }
         
     }] resume];
 }
 - (NSData *)createBodyWithBoundary:(NSString *)boundary
                         parameters:(NSDictionary *)attributes
-                             data:(NSData *)data {
+                              data:(NSData *)data {
     NSMutableData *httpBody = [NSMutableData data];
-
+    
     // add params (all params are strings)
-
+    
     [attributes enumerateKeysAndObjectsUsingBlock:^(NSString *parameterKey, NSString *parameterValue, BOOL *stop) {
         [httpBody appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
         [httpBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", parameterKey] dataUsingEncoding:NSUTF8StringEncoding]];
         [httpBody appendData:[[NSString stringWithFormat:@"%@\r\n", parameterValue] dataUsingEncoding:NSUTF8StringEncoding]];
     }];
     
-
+    
     [httpBody appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
     [httpBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"upload_file\"; filename=\"upload_file\"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
     [httpBody appendData:[[NSString stringWithFormat:@"Content-Type: application/octet-stream\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
     [httpBody appendData:data];
     [httpBody appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
     [httpBody appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-
+    
     return httpBody;
 }
 
@@ -308,9 +308,9 @@ void GetAttibutes(struct Entry** entries, int* size) {
 
 void NativeReport(const char* message) {
     // reporter is disabled
-       if(!reporter) {
-           return;
-       }
+    if(!reporter) {
+        return;
+    }
     [reporter nativeReport:message];
     
 }
