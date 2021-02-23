@@ -26,6 +26,11 @@
 		0B08CB422558A0D900093E13 /* libCrashReporter-MacOSX-Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B08CB3325589D0C00093E13 /* libCrashReporter-MacOSX-Static.a */; };
 		0BD10AE72551878000275595 /* Backtrace_Unity_Cocoa.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD10AE62551878000275595 /* Backtrace_Unity_Cocoa.m */; };
 		0BD10AF22551B5F500275595 /* libCrashReporter-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BD10AF12551B5F400275595 /* libCrashReporter-iOS.a */; platformFilter = ios; };
+		0BDC455625E001490049D68A /* OomWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BDC455525E001490049D68A /* OomWatcher.m */; };
+		0BDC455825E0019B0049D68A /* BacktraceApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BDC455725E0019B0049D68A /* BacktraceApi.m */; };
+		0BF41F8D25E3C73600F42652 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF41F8C25E3C73600F42652 /* Utils.m */; };
+		0BF41F9025E3F99400F42652 /* BacktraceAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF41F8F25E3F99400F42652 /* BacktraceAttributes.m */; };
+		0BF41F9325E5358400F42652 /* Backtrace.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF41F9225E5358300F42652 /* Backtrace.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -48,6 +53,16 @@
 		0BD10AE22551878000275595 /* libBacktrace-Unity-Cocoa.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libBacktrace-Unity-Cocoa.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BD10AE62551878000275595 /* Backtrace_Unity_Cocoa.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Backtrace_Unity_Cocoa.m; sourceTree = "<group>"; };
 		0BD10AF12551B5F400275595 /* libCrashReporter-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libCrashReporter-iOS.a"; path = "../../Downloads/PLCrashReporter-Static-1.7.2/libCrashReporter-iOS.a"; sourceTree = "<group>"; };
+		0BDC455525E001490049D68A /* OomWatcher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OomWatcher.m; sourceTree = "<group>"; };
+		0BDC455725E0019B0049D68A /* BacktraceApi.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BacktraceApi.m; sourceTree = "<group>"; };
+		0BDC455B25E009B10049D68A /* BacktraceApi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BacktraceApi.h; sourceTree = "<group>"; };
+		0BDC455C25E009FF0049D68A /* BacktraceAttributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BacktraceAttributes.h; sourceTree = "<group>"; };
+		0BF41F8B25E3C70300F42652 /* Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		0BF41F8C25E3C73600F42652 /* Utils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
+		0BF41F8E25E3CDCD00F42652 /* OomWatcher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OomWatcher.h; sourceTree = "<group>"; };
+		0BF41F8F25E3F99400F42652 /* BacktraceAttributes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BacktraceAttributes.m; sourceTree = "<group>"; };
+		0BF41F9125E5353100F42652 /* Backtrace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Backtrace.h; sourceTree = "<group>"; };
+		0BF41F9225E5358300F42652 /* Backtrace.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Backtrace.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +117,16 @@
 			isa = PBXGroup;
 			children = (
 				0BD10AE62551878000275595 /* Backtrace_Unity_Cocoa.m */,
+				0BDC455525E001490049D68A /* OomWatcher.m */,
+				0BDC455725E0019B0049D68A /* BacktraceApi.m */,
+				0BDC455B25E009B10049D68A /* BacktraceApi.h */,
+				0BDC455C25E009FF0049D68A /* BacktraceAttributes.h */,
+				0BF41F8B25E3C70300F42652 /* Utils.h */,
+				0BF41F8C25E3C73600F42652 /* Utils.m */,
+				0BF41F8E25E3CDCD00F42652 /* OomWatcher.h */,
+				0BF41F8F25E3F99400F42652 /* BacktraceAttributes.m */,
+				0BF41F9125E5353100F42652 /* Backtrace.h */,
+				0BF41F9225E5358300F42652 /* Backtrace.m */,
 			);
 			path = "Backtrace-Unity-Cocoa";
 			sourceTree = "<group>";
@@ -219,7 +244,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# 1: Declare variables\nRESULT_DIR=\"Universal-release\"\n\nBUILD_DIR_SIMULATOR=\"Release-iphonesimulator\"\nBUILD_DIR_DEVICE=\"Release-iphoneos\"\n\nLIB_NAME=\"Backtrace-Unity-Cocoa\"\nLIB_BINARY_NAME=\"lib$LIB_NAME.a\"\nLIB_BINARY_NAME_SIMULATOR=\"lib$LIB_NAME-simulator.a\"\nLIB_BINARY_NAME_DEVICE=\"lib$LIB_NAME-device.a\"\n\n\n# 2: BUILD\n#\n# Build for simulator\nxcodebuild -target \"${PROJECT_NAME}\" -arch x86_64  -configuration ${CONFIGURATION} BUILD_DIR=\"${BUILD_DIR_SIMULATOR}\" BUILD_ROOT=\"${BUILD_ROOT}\" clean build -sdk iphonesimulator\n\n\n# Build for device\nxcodebuild -target $LIB_NAME ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} clean build -sdk iphoneos  BUILD_DIR=\"${BUILD_DIR_DEVICE}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n\n# 3: OPERATE THE BINARIES\n#\n# Move to the build directory\ncd $BUILD_DIR\n\n# Completely delete the result of the previous build if any\n# Suppress the error to avoid unnecessary logs\n\nrm -rf $BUILD_DIR/$RESULT_DIR 2> /dev/null\n\n# Create a new result directory\nmkdir $RESULT_DIR\n\n# Copy simulator's binary file to the result dir and rename it\ncp ./$BUILD_DIR_SIMULATOR/$LIB_BINARY_NAME ./$RESULT_DIR/$LIB_BINARY_NAME_SIMULATOR\n\n# Copy devices's binary file to the result dir and rename it\ncp ./$BUILD_DIR_DEVICE/$LIB_BINARY_NAME ./$RESULT_DIR/$LIB_BINARY_NAME_DEVICE\n\n# Make the library \"fat\", means \"universal\"\nlipo -create ./$RESULT_DIR/$LIB_BINARY_NAME_SIMULATOR ./$RESULT_DIR/$LIB_BINARY_NAME_DEVICE -output ./$RESULT_DIR/$LIB_BINARY_NAME\n\n# Delete simulator's binary file\nrm ./$RESULT_DIR/$LIB_BINARY_NAME_SIMULATOR\n\n# Delete device's binary file\nrm ./$RESULT_DIR/$LIB_BINARY_NAME_DEVICE\n\n# Delete build directory\nrm -rf $PROJECT_DIR/build\n";
+			shellScript = "# 1: Declare variables\nRESULT_DIR=\"Universal-release\"\n\nBUILD_DIR_SIMULATOR=\"Release-iphonesimulator\"\nBUILD_DIR_DEVICE=\"Release-iphoneos\"\n\nLIB_NAME=\"Backtrace-Unity-Cocoa\"\nLIB_BINARY_NAME=\"lib$LIB_NAME.a\"\nLIB_BINARY_NAME_SIMULATOR=\"lib$LIB_NAME-simulator.a\"\nLIB_BINARY_NAME_DEVICE=\"lib$LIB_NAME-device.a\"\n\n\n# 2: BUILD\n#\n# Build for simulator\nxcodebuild -target \"${PROJECT_NAME}\" -arch x86_64  -configuration ${CONFIGURATION} BUILD_DIR=\"${BUILD_DIR_SIMULATOR}\" BUILD_ROOT=\"${BUILD_ROOT}\" clean build -sdk iphonesimulator\n\n\n# Build for device\nxcodebuild -target $LIB_NAME ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} clean build -sdk iphoneos  BUILD_DIR=\"${BUILD_DIR_DEVICE}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n\n# 3: OPERATE THE BINARIES\n#\n# Move to the build directory\ncd $BUILD_DIR\n\n# Completely delete the result of the previous build if any\n# Suppress the error to avoid unnecessary logs\n\nrm -rf $BUILD_DIR/$RESULT_DIR 2> /dev/null\n\n# Create a new result directory\nmkdir $RESULT_DIR\n\n# Copy simulator's binary file to the result dir and rename it\ncp ./$BUILD_DIR_SIMULATOR/$LIB_BINARY_NAME ./$RESULT_DIR/$LIB_BINARY_NAME_SIMULATOR\n\n# Copy devices's binary file to the result dir and rename it\ncp ./$BUILD_DIR_DEVICE/$LIB_BINARY_NAME ./$RESULT_DIR/$LIB_BINARY_NAME_DEVICE\n\n# Make the library \"fat\", means \"universal\"\nlipo -create ./$RESULT_DIR/$LIB_BINARY_NAME_SIMULATOR ./$RESULT_DIR/$LIB_BINARY_NAME_DEVICE -output ./$RESULT_DIR/$LIB_BINARY_NAME\n\n# Delete simulator's binary file\n#rm ./$RESULT_DIR/$LIB_BINARY_NAME_SIMULATOR\n\n# Delete device's binary file\n#rm ./$RESULT_DIR/$LIB_BINARY_NAME_DEVICE\n\n# Delete build directory\n#rm -rf $PROJECT_DIR/build\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -236,6 +261,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BF41F9325E5358400F42652 /* Backtrace.m in Sources */,
+				0BF41F9025E3F99400F42652 /* BacktraceAttributes.m in Sources */,
+				0BDC455625E001490049D68A /* OomWatcher.m in Sources */,
+				0BDC455825E0019B0049D68A /* BacktraceApi.m in Sources */,
+				0BF41F8D25E3C73600F42652 /* Utils.m in Sources */,
 				0BD10AE72551878000275595 /* Backtrace_Unity_Cocoa.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
