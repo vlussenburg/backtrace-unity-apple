@@ -22,7 +22,7 @@ NSMutableDictionary* _attributes;
  GetAttributes function will alloc space in memory for NSDicionary and will put all attributes
  there. In Unity layer we will reuse intPtr to get all attributes from NSDictionary.
  */
-+ (NSMutableDictionary*)getAttributes  {
++ (NSMutableDictionary*)getBuiltInAttributes  {
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     
     //read process info
@@ -78,10 +78,10 @@ NSMutableDictionary* _attributes;
 + (NSMutableDictionary *)getCrashAttributes {
     BacktraceAttributes* attributesInstance = instance;
     if(attributesInstance == nil) {
-        return [BacktraceAttributes getAttributes];
+        return [BacktraceAttributes getBuiltInAttributes];
     }
     NSMutableDictionary* attr = [[attributesInstance getUnityAttributes] mutableCopy];
-    [attr addEntriesFromDictionary:[BacktraceAttributes getAttributes]];
+    [attr addEntriesFromDictionary:[BacktraceAttributes getBuiltInAttributes]];
     return attr;
     
 }

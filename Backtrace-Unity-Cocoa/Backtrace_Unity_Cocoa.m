@@ -34,7 +34,7 @@ void StartBacktraceIntegration(const char* rawUrl, const char* attributeKeys[], 
 // GetAttributes function will alloc space in memory for NSDicionary and will put all attributes
 // there. In Unity layer we will reuse intPtr to get all attributes from NSDictionary.
 void GetAttributes(struct Entry** entries, int* size) {
-    NSMutableDictionary* dictionary = [BacktraceAttributes getAttributes];
+    NSMutableDictionary* dictionary = [BacktraceAttributes getBuiltInAttributes];
     int count = (int) [dictionary count];
     
     *entries = malloc(count * sizeof(struct Entry));

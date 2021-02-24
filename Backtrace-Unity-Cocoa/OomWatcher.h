@@ -23,6 +23,5 @@
 - (BOOL) shouldReportOom: (NSDictionary*) state;
 - (void) backgroundNotification;
 - (void) foregroundNotification;
-- (void) cleanupOomState;
 - (void) saveLowMemoryState;
 @end

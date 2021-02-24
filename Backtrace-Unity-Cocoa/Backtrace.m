@@ -111,7 +111,7 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
     }
     [_backtraceApi upload:data withAttributes:attributes andCompletionHandler:^(bool shouldRemove) {
         if(!shouldRemove) {
-            NSLog(@"Backtrace: Cannot report native report");
+            NSLog(@"Backtrace: Cannot upload native report");
         }
     }];
 }
@@ -149,7 +149,7 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
 }
 
 - (void)handleTerminateNotification {
-    [_oomWatcher cleanupOomState];
+    [OomWatcher cleanup];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

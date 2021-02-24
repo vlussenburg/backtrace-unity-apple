@@ -16,8 +16,11 @@ BacktraceAttributes* _attributes;
 // http client instance
 BacktraceApi* _backtraceApi;
 
+NSTimeInterval _lastUpdateTime;
+
 - (instancetype) initWithCrashReporter:(PLCrashReporter *)reporter andAttributes:(BacktraceAttributes *)attributes andApi:(BacktraceApi *) api {
     if (self = [super init]) {
+        _lastUpdateTime = 0;
         _attributes = attributes;
         _crashReporter = reporter;
         _backtraceApi = api;
@@ -44,11 +47,15 @@ BacktraceApi* _backtraceApi;
     [self saveApplicationState];
 }
 
-- (void) cleanupOomState {
-    [OomWatcher cleanup];
-}
-
 - (void) saveLowMemoryState {
+     NSTimeInterval currentTime = [[NSDate date] timeIntervalSince1970];
+    if( (currentTime - _lastUpdateTime) < 120) {
+        _lastUpdateTime = currentTime;
+        return;
+    }
+    
+    NSLog(@"Backtrace: Received a memory warning message. Saving application state.");
+    _lastUpdateTime = currentTime;
     // generate report
     [_applicationState setObject: [_crashReporter generateLiveReport] forKey:@"resource"];
     
