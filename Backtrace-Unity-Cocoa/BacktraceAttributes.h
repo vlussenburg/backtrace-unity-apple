@@ -3,7 +3,7 @@
     /**
      Report attributes
      */
-    NSMutableDictionary* attributes;
+    NSMutableDictionary* _clientAttributes;
 }
 - (instancetype)initWithAttributes:(NSMutableDictionary*) attributes;
 + (NSMutableDictionary*)getCrashAttributes;

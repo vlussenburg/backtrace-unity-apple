@@ -13,7 +13,7 @@ static BacktraceAttributes* instance;
 /**
  stored Unity attributes
  */
-NSMutableDictionary* _attributes;
+NSMutableDictionary* _clientAttributes;
 
 /**
  Return native iOS attributes
@@ -91,7 +91,7 @@ NSMutableDictionary* _attributes;
         return instance;
     }
     if( self = [super init]) {
-        _attributes = attributes;
+        _clientAttributes = attributes;
         instance = self;
     }
     return instance;
@@ -99,11 +99,11 @@ NSMutableDictionary* _attributes;
 
 
 - (NSDictionary*)getUnityAttributes {
-    return _attributes;
+    return _clientAttributes;
 }
 
 - (void)addAttribute:(const char*)key withValue:(const char*)value {
-    [_attributes setObject:[NSString stringWithUTF8String: value] forKey:[NSString stringWithUTF8String: key]];
+    [_clientAttributes setObject:[NSString stringWithUTF8String: value] forKey:[NSString stringWithUTF8String: key]];
 }
 
 
