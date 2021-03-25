@@ -103,7 +103,12 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
     //send pending reports
     [self sendPendingReports];
     //enable crash reporter
-    [_crashReporter enableCrashReporter];
+    NSError* error;
+    [_crashReporter enableCrashReporterAndReturnError:&error];
+    if(error) {
+        NSLog(@"Backtrace: Cannot initialize crash reporter. Reason: %@ %@", error, [error userInfo]);
+        return;
+    }
     if(oomSupport){
         [self startNotificationsIntegration];
     }
@@ -188,8 +193,20 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
     {
         return;
     }
-    NSData *data = [_crashReporter loadPendingCrashReportData];
-    PLCrashReport *report = [[PLCrashReport alloc] initWithData: data error: NULL];
+    NSError *error = nil;
+    NSData *data = [_crashReporter loadPendingCrashReportDataAndReturnError:&error];
+    if(error) {
+        NSLog(@"Backtrace: Cannot load pending crash reports. Reason: %@ %@", error, [error userInfo]);
+    }
+    if(!data) {
+        return;
+    }
+    
+    PLCrashReport *report = [[PLCrashReport alloc] initWithData: data error:&error];
+    if(error) {
+        NSLog(@"Backtrace: Cannot initalize new report from old session. Reason: %@ %@", error, [error userInfo]);
+        return;
+    }
     NSMutableDictionary* attributes =  [_backtraceAttributes readStoredAttributes:[Utils getDefaultReportPath]];
     if (report){
         NSMutableArray* attachments = [[self getAttachments] mutableCopy];

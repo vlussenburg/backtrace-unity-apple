@@ -105,16 +105,26 @@ NSMutableDictionary* _clientAttributes;
 }
 
 - (void)addAttribute:(const char*)key withValue:(const char*)value {
-    [_clientAttributes setObject:[NSString stringWithUTF8String: value] forKey:[NSString stringWithUTF8String: key]];
+    NSString* keyString = key != NULL ? [NSString stringWithUTF8String: key] : @"";
+    if(!keyString) {
+        keyString = @"";
+    }
+    NSString* valueString = value != NULL ? [NSString stringWithUTF8String: value] : @"";
+    if(!valueString) {
+        valueString = @"";
+    }
+    [_clientAttributes setObject: valueString forKey: keyString];
 }
 
 
 - (NSDictionary*) readStoredAttributes:(NSString*) reportPath {
-    if(![[NSFileManager defaultManager] fileExistsAtPath:reportPath]) {
-        return [NSMutableDictionary dictionary];
-    } else {
-        return [NSDictionary dictionaryWithContentsOfFile:reportPath];
+    if([[NSFileManager defaultManager] fileExistsAtPath:reportPath]) {
+        NSDictionary* result = [NSDictionary dictionaryWithContentsOfFile:reportPath];
+        if(result) {
+            return result;
+        }
     }
+    return [NSMutableDictionary dictionary];
 }
 
 @end

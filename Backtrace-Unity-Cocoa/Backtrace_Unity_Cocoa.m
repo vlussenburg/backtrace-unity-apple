@@ -19,12 +19,26 @@ void StartBacktraceIntegration(const char* rawUrl, const char* attributeKeys[], 
     }
     NSMutableDictionary *attributes = [[NSMutableDictionary alloc]initWithCapacity:size];
     for (int index =0; index < size ; index++) {
-        [attributes setObject:[NSString stringWithUTF8String: attributeValues[index]] forKey:[NSString stringWithUTF8String: attributeKeys[index]]];
+        NSString* attributeKey = attributeKeys[index] != NULL ? [NSString stringWithUTF8String: attributeKeys[index]] : @"";
+        
+        if(attributeKey == NULL) {
+            NSLog(@"Backtrace: Cannot store attribute key: %s", attributeKeys[index]);
+            attributeKey = @"";
+        }
+        
+        NSString* attributeValue = attributeValues[index] != NULL ? [NSString stringWithUTF8String: attributeValues[index]] : @"";
+        if(attributeValue == NULL) {
+            NSLog(@"Backtrace: Cannot store attribute value: %s", attributeValues[index]);
+            attributeValue = @"";
+        }
+        [attributes setObject:attributeValue forKey:attributeKey];
     }
     
     NSMutableArray* attachmentPaths = [[NSMutableArray alloc] initWithCapacity:attachmentSize];
     for (int index =0; index< attachmentSize; index++) {
-        [attachmentPaths addObject:[NSString stringWithUTF8String: attachments[index]]];
+        if(attachments[index] != NULL) {
+            [attachmentPaths addObject:[NSString stringWithUTF8String: attachments[index]]];
+        }
     }
     
     reporter = [[Backtrace alloc] initWithBacktraceUrl:rawUrl andAttributes: attributes andOomSupport:enableOomSupport andAttachments:attachmentPaths];
