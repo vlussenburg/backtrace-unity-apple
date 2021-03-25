@@ -12,7 +12,7 @@
 Backtrace *reporter;
 
 //// Initialize native crash reporter handler and set basic Unity attributes that integration will store when exception occured.
-void StartBacktraceIntegration(const char* rawUrl, const char* attributeKeys[], const char* attributeValues[], const int size, bool enableOomSupport) {
+void StartBacktraceIntegration(const char* rawUrl, const char* attributeKeys[], const char* attributeValues[], const int size, bool enableOomSupport, const char* attachments[], const int attachmentSize) {
     
     if(!rawUrl){
         return;
@@ -22,7 +22,12 @@ void StartBacktraceIntegration(const char* rawUrl, const char* attributeKeys[], 
         [attributes setObject:[NSString stringWithUTF8String: attributeValues[index]] forKey:[NSString stringWithUTF8String: attributeKeys[index]]];
     }
     
-    reporter = [[Backtrace alloc] initWithBacktraceUrl:rawUrl andAttributes: attributes andOomSupport:enableOomSupport];
+    NSMutableArray* attachmentPaths = [[NSMutableArray alloc] initWithCapacity:attachmentSize];
+    for (int index =0; index< attachmentSize; index++) {
+        [attachmentPaths addObject:[NSString stringWithUTF8String: attachments[index]]];
+    }
+    
+    reporter = [[Backtrace alloc] initWithBacktraceUrl:rawUrl andAttributes: attributes andOomSupport:enableOomSupport andAttachments:attachmentPaths];
     if( reporter){
         [reporter start];
     }
@@ -49,12 +54,12 @@ void GetAttributes(struct Entry** entries, int* size) {
     *size = count;
 }
 
-void NativeReport(const char* message) {
+void NativeReport(const char* message, bool setMainThreadAsFaultingThread) {
     // reporter is disabled
     if(!reporter) {
         return;
     }
-    [reporter nativeReport:message];
+    [reporter nativeReport:message withMainThreadAsFaultingThread:setMainThreadAsFaultingThread];
     
 }
 void AddAttribute(char* key, char* value) {

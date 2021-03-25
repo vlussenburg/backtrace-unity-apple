@@ -16,14 +16,18 @@ BacktraceAttributes* _attributes;
 // http client instance
 BacktraceApi* _backtraceApi;
 
+// oom attachments
+NSMutableArray* _oomAttachments;
+
 NSTimeInterval _lastUpdateTime;
 
-- (instancetype) initWithCrashReporter:(PLCrashReporter *)reporter andAttributes:(BacktraceAttributes *)attributes andApi:(BacktraceApi *) api {
+- (instancetype) initWithCrashReporter:(PLCrashReporter *)reporter andAttributes:(BacktraceAttributes *)attributes andApi:(BacktraceApi *) api andAttachments:(NSMutableArray*) attachments {
     if (self = [super init]) {
         _lastUpdateTime = 0;
         _attributes = attributes;
         _crashReporter = reporter;
         _backtraceApi = api;
+        _oomAttachments = attachments;
         _applicationState = [NSMutableDictionary dictionary];
         [self startOomIntegration];
     }
@@ -75,6 +79,7 @@ NSTimeInterval _lastUpdateTime;
  */
 - (void) setDefaultApplicationState {
     [_applicationState setObject:@"foreground" forKey:@"state"];
+    [_applicationState setObject:_oomAttachments forKey:@"resource-attachments"];
     [_applicationState setObject:[[NSProcessInfo processInfo] operatingSystemVersionString] forKey:@"osVersion"];
     [_applicationState setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] forKey:@"appVersion"];
     [_applicationState setObject:[NSNumber numberWithBool:[Utils isDebuggerAttached]] forKey:@"debuggerEnabled"];
@@ -105,8 +110,20 @@ NSTimeInterval _lastUpdateTime;
         return;
     }
     
-     NSLog(@"Backtrace: App was closed because of OutOfMemory exception. Reporting state to Backtrace.");
-    [_backtraceApi upload:resource withAttributes: [state objectForKey:@"resource-attributes"]  andCompletionHandler:^(bool shouldRemove) {
+    NSLog(@"Backtrace: App was closed because of OutOfMemory exception. Reporting state to Backtrace.");
+    
+    NSMutableArray* attachments = [_oomAttachments mutableCopy];
+    if([state objectForKey:@"resource-attachments"] != nil) {
+       NSMutableArray* prevAttachments = [state objectForKey:@"resource-attachments"];
+       for (NSString* storedAttachment in prevAttachments)
+       {
+           // make sure you don't add it if it's already there.
+           [attachments removeObject:storedAttachment];
+           [attachments addObject:storedAttachment];
+       }
+   }
+
+    [_backtraceApi upload:resource withAttributes: [state objectForKey:@"resource-attributes"] andAttachments:attachments  andCompletionHandler:^(bool shouldRemove) {
         if(!shouldRemove) {
             NSLog(@"Backtrace: Cannot report OOM report");
         }

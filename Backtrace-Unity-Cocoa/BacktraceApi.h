@@ -3,8 +3,9 @@
     /**
      Backtrace URL
      */
-    NSURL* uploadUrl;
+    NSURL* _uploadUrl;
 }
 - (instancetype)initWithBacktraceUrl:(const char*) rawUrl;
-- (void) upload:(const NSData*) report withAttributes:(NSDictionary*) attributes andCompletionHandler:(void (^)(bool shouldRemoveReports)) completionHandler;
+- (void) upload:(NSData*) crash withAttributes:(NSDictionary*) attributes andAttachments:
+(NSMutableArray*) attachmentsPaths andCompletionHandler:(void (^)(bool shouldRemoveReports)) completionHandler;
 @end

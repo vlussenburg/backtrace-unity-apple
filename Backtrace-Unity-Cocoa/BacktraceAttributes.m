@@ -91,6 +91,8 @@ NSMutableDictionary* _clientAttributes;
         return instance;
     }
     if( self = [super init]) {
+        // https://stackoverflow.com/a/38963835/4818730
+        [attributes setObject: @"0" forKey:@"thread.main"];
         _clientAttributes = attributes;
         instance = self;
     }

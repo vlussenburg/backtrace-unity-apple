@@ -29,6 +29,11 @@ BacktraceAttributes* _backtraceAttributes;
  Backtrace OOM watcher instance
  */
 OomWatcher* _oomWatcher;
+
+/**
+ Attachment paths
+ */
+NSMutableArray* _attachmentsPaths;
 /**
  Class instance
  */
@@ -42,12 +47,13 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
     
     NSString* errorMessage = [@"siginfo_t.si_signo:" stringByAppendingString:[@(info->si_signo) stringValue]];
     [attributes setObject:errorMessage  forKey:@"error.message"];
+    [attributes setObject:[instance getAttachments] forKey:@"__attachment_storage"];
     NSString* reportPath =[Utils getDefaultReportPath];
     [attributes writeToFile:reportPath atomically:YES];
     NSLog(@"Backtrace: Received game crash. Storing attributes at path:%@", reportPath);
 }
 
-- (instancetype)initWithBacktraceUrl:(const char*) rawUrl andAttributes:(NSMutableDictionary*) attributes andOomSupport:(bool) enableOomSupport {
+- (instancetype)initWithBacktraceUrl:(const char*) rawUrl andAttributes:(NSMutableDictionary*) attributes andOomSupport:(bool) enableOomSupport andAttachments:(NSMutableArray*) attachments {
     if(instance != nil) {
         return instance;
     }
@@ -63,6 +69,7 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
         }
         _backtraceAttributes = [[BacktraceAttributes alloc] initWithAttributes:attributes];
         _backtraceApi = [[BacktraceApi alloc] initWithBacktraceUrl:rawUrl];
+        _attachmentsPaths = attachments;
         
         // initialize Crash reporter
         PLCrashReporterSignalHandlerType signalHandlerType = PLCrashReporterSignalHandlerTypeBSD;
@@ -82,7 +89,7 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
         oomSupport = enableOomSupport;
         // setup out of memory support
         if(oomSupport) {
-            _oomWatcher = [[OomWatcher alloc] initWithCrashReporter:_crashReporter andAttributes:_backtraceAttributes andApi:_backtraceApi];
+            _oomWatcher = [[OomWatcher alloc] initWithCrashReporter:_crashReporter andAttributes:_backtraceAttributes andApi:_backtraceApi andAttachments:attachments];
         }
         instance = self;
         
@@ -102,16 +109,23 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
     }
 }
 
+- (NSMutableArray*) getAttachments {
+    return _attachmentsPaths;
+}
 
-- (void)nativeReport: (const char*) rawMessage {
+- (void)nativeReport: (const char*) rawMessage withMainThreadAsFaultingThread:(bool) setMainThreadAsFaultingThread {
     NSData *data = [_crashReporter generateLiveReport];
     NSMutableDictionary *attributes = [BacktraceAttributes getCrashAttributes];
     if(rawMessage != NULL) {
         [attributes setObject:[NSString stringWithUTF8String: rawMessage] forKey: @"error.message"];
     }
-    [_backtraceApi upload:data withAttributes:attributes andCompletionHandler:^(bool shouldRemove) {
+    if(setMainThreadAsFaultingThread == true) {
+        [attributes setObject:@"0" forKey: @"_mod_faulting_tid"];
+    }
+    NSMutableArray* attachments=  [self getAttachments];
+    [_backtraceApi upload:data withAttributes:attributes andAttachments:attachments andCompletionHandler:^(bool shouldRemove) {
         if(!shouldRemove) {
-            NSLog(@"Backtrace: Cannot upload native report");
+            NSLog(@"Backtrace: Cannot upload native report.");
         }
     }];
 }
@@ -176,11 +190,22 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
     }
     NSData *data = [_crashReporter loadPendingCrashReportData];
     PLCrashReport *report = [[PLCrashReport alloc] initWithData: data error: NULL];
-    NSDictionary* attributes =  [_backtraceAttributes readStoredAttributes:[Utils getDefaultReportPath]];
+    NSMutableDictionary* attributes =  [_backtraceAttributes readStoredAttributes:[Utils getDefaultReportPath]];
     if (report){
+        NSMutableArray* attachments = [[self getAttachments] mutableCopy];
+        if(attributes != nil && [attributes objectForKey:@"__attachment_storage"] != nil) {
+            NSMutableArray* prevAttachments = [attributes objectForKey:@"__attachment_storage"];
+            for (NSString* storedAttachment in prevAttachments)
+            {
+                // make sure you don't add it if it's already there.
+                [attachments removeObject:storedAttachment];
+                [attachments addObject:storedAttachment];
+            }
+            [attributes removeObjectForKey:@"__attachment_storage"];
+        }
         Backtrace* callbackInstance = instance;
         NSLog(@"Backtrace: Found a crash generated in last user session. Sending data to Backtrace.");
-        [_backtraceApi upload:data withAttributes:attributes andCompletionHandler:^(bool shouldRemove) {
+        [_backtraceApi upload:data withAttributes:attributes andAttachments:attachments andCompletionHandler:^(bool shouldRemove) {
             
             if(!shouldRemove) {
                 NSLog(@"Backtrace: Cannot send report to Backtrace.");

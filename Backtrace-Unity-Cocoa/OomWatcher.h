@@ -15,9 +15,12 @@
 
     // http client instance
     BacktraceApi* _backtraceApi;
+    
+    // oom attachments
+    NSMutableArray* _oomAttachments;
 }
 + (void) cleanup;
-- (instancetype)initWithCrashReporter:(PLCrashReporter*) reporter andAttributes:(BacktraceAttributes*) attributes andApi:(BacktraceApi*) api;
+- (instancetype)initWithCrashReporter:(PLCrashReporter*) reporter andAttributes:(BacktraceAttributes*) attributes andApi:(BacktraceApi*) api andAttachments:(NSMutableArray*) attachments ;
 - (void) startOomIntegration;
 - (void) sendOomReports;
 - (BOOL) shouldReportOom: (NSDictionary*) state;
