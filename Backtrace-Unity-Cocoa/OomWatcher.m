@@ -89,6 +89,10 @@ NSTimeInterval _lastUpdateTime;
  */
 - (void)sendOomReports {
     NSString* statusPath = [Utils getDefaultOomStatusPath];
+    // check if crash happened in the previous session
+    if([_crashReporter hasPendingCrashReport]) {
+        return;
+    }
     NSFileManager* manager = [NSFileManager defaultManager];
     if([manager fileExistsAtPath:statusPath] == NO) {
         return;
@@ -98,32 +102,34 @@ NSTimeInterval _lastUpdateTime;
     if(!state) {
         return;
     }
-    
-    NSData* resource = [state objectForKey:@"resource"];
-    // memory warning didn't occur in last session
-    if(resource == nil) {
-        return;
-    }
    
     if (![self shouldReportOom:state]) {
         [OomWatcher cleanup];
         return;
     }
     
-    NSLog(@"Backtrace: App was closed because of OutOfMemory exception. Reporting state to Backtrace.");
+    NSData* resource = [state objectForKey:@"resource"];
+    // memory warning didn't occur in last session
+    if(resource == nil) {
+        resource = [_crashReporter generateLiveReport];
+    }
     
-    NSMutableArray* attachments = [_oomAttachments mutableCopy];
+    NSLog(@"Backtrace: App was closed due to OutOfMemory exception. Reporting state to Backtrace.");
+    
+   NSMutableArray* attachments = [NSMutableArray array];
     if([state objectForKey:@"resource-attachments"] != nil) {
-       NSMutableArray* prevAttachments = [state objectForKey:@"resource-attachments"];
-       for (NSString* storedAttachment in prevAttachments)
-       {
-           // make sure you don't add it if it's already there.
-           [attachments removeObject:storedAttachment];
-           [attachments addObject:storedAttachment];
-       }
-   }
-
-    [_backtraceApi upload:resource withAttributes: [state objectForKey:@"resource-attributes"] andAttachments:attachments  andCompletionHandler:^(bool shouldRemove) {
+       attachments = [state objectForKey:@"resource-attachments"];
+    }
+    
+    NSMutableDictionary* attributes = [state objectForKey:@"resource-attributes"];
+    if(attributes == nil) {
+        attributes = [BacktraceAttributes getCrashAttributes];
+        [attributes setObject:@"OOMException: Out of memory detected. No memory warning was detected."  forKey:@"error.message"];
+        [attributes setObject:@"Low memory"  forKey:@"error.type"];
+        [attributes setObject:@"OOMException" forKey:@"classifiers"];
+    }
+    
+    [_backtraceApi upload:resource withAttributes: attributes andAttachments:attachments  andCompletionHandler:^(bool shouldRemove) {
         if(!shouldRemove) {
             NSLog(@"Backtrace: Cannot report OOM report");
         }

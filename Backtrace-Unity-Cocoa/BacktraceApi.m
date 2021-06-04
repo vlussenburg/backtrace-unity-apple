@@ -63,13 +63,32 @@ NSURL* _uploadUrl;
     [httpBody appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
     
     // add attachments if it's safe to read them
-    if(attachmentsPaths != nil) {
+    if(attachmentsPaths != nil && [attachmentsPaths count] != 0) {
         NSFileManager* manager = [NSFileManager defaultManager];
-        for (NSString* attachmentPath in attachmentsPaths) {
+        // add attachments from the end to the beginning
+        // include at the beginning attachments that shouldn't change.
+        // this is required to have the same behavior on iOS and Android
+        // Crashpad on Android will upload last attachment with the same name
+        // here where we own code, we can treat last attachment (that Crashpad will upload)
+        // as first priority and add (n) postfix to each attachment.
+        
+        NSMutableDictionary *attachmentNames = [NSMutableDictionary dictionary];
+        for (NSString * attachmentPath in [attachmentsPaths reverseObjectEnumerator])
+        {
             if(![manager fileExistsAtPath:attachmentPath]) {
                 continue;
             }
             NSString* fileName = [attachmentPath lastPathComponent];
+            
+            if([attachmentNames objectForKey:fileName] != nil) {
+                int value = [[attachmentNames objectForKey:fileName] intValue] + 1;
+                [attachmentNames setObject: [NSNumber numberWithInt:value] forKey:fileName];
+                fileName = [NSString stringWithFormat:@"%@(%d)", fileName, value ];
+                
+            } else {
+                [attachmentNames setObject: [NSNumber numberWithInt:0] forKey:fileName];
+            }
+            
             [httpBody appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
             [httpBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", fileName, fileName] dataUsingEncoding:NSUTF8StringEncoding]];
             [httpBody appendData:[[NSString stringWithFormat:@"Content-Type: application/octet-stream\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
