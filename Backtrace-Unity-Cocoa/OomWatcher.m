@@ -21,6 +21,9 @@ NSMutableArray* _oomAttachments;
 
 NSTimeInterval _lastUpdateTime;
 
+// determine if debugger is available or not
+bool _debugMode;
+
 - (instancetype) initWithCrashReporter:(PLCrashReporter *)reporter andAttributes:(BacktraceAttributes *)attributes andApi:(BacktraceApi *) api andAttachments:(NSMutableArray*) attachments {
     if (self = [super init]) {
         _lastUpdateTime = 0;
@@ -29,6 +32,7 @@ NSTimeInterval _lastUpdateTime;
         _backtraceApi = api;
         _oomAttachments = attachments;
         _applicationState = [NSMutableDictionary dictionary];
+        _debugMode = [Utils isDebuggerAttached];
         [self startOomIntegration];
     }
     
@@ -60,8 +64,6 @@ NSTimeInterval _lastUpdateTime;
     
     NSLog(@"Backtrace: Received a memory warning message. Saving application state.");
     _lastUpdateTime = currentTime;
-    // generate report
-    [_applicationState setObject: [_crashReporter generateLiveReport] forKey:@"resource"];
     
     NSMutableDictionary *attributes = [BacktraceAttributes getCrashAttributes];
     [attributes setObject:@"OOMException: Out of memory detected."  forKey:@"error.message"];
@@ -82,7 +84,7 @@ NSTimeInterval _lastUpdateTime;
     [_applicationState setObject:_oomAttachments forKey:@"resource-attachments"];
     [_applicationState setObject:[[NSProcessInfo processInfo] operatingSystemVersionString] forKey:@"osVersion"];
     [_applicationState setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] forKey:@"appVersion"];
-    [_applicationState setObject:[NSNumber numberWithBool:[Utils isDebuggerAttached]] forKey:@"debuggerEnabled"];
+    [_applicationState setObject:[NSNumber numberWithBool:_debugMode] forKey:@"debuggerEnabled"];
 }
 /**
  send pending oom reports to Backtrace
@@ -109,7 +111,6 @@ NSTimeInterval _lastUpdateTime;
     }
     
     NSData* resource = [state objectForKey:@"resource"];
-    // memory warning didn't occur in last session
     if(resource == nil) {
         resource = [_crashReporter generateLiveReport];
     }

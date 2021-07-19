@@ -18,6 +18,9 @@
     
     // oom attachments
     NSMutableArray* _oomAttachments;
+    
+    // determine if debugger is available or not
+    bool _debugMode;
 }
 + (void) cleanup;
 - (instancetype)initWithCrashReporter:(PLCrashReporter*) reporter andAttributes:(BacktraceAttributes*) attributes andApi:(BacktraceApi*) api andAttachments:(NSMutableArray*) attachments ;

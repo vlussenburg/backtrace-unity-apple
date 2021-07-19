@@ -11,6 +11,7 @@
 // crash reporter instance
 Backtrace *reporter;
 
+bool debugMode;
 //// Initialize native crash reporter handler and set basic Unity attributes that integration will store when exception occured.
 void StartBacktraceIntegration(const char* rawUrl, const char* attributeKeys[], const char* attributeValues[], const int size, bool enableOomSupport, const char* attachments[], const int attachmentSize) {
     
@@ -40,9 +41,9 @@ void StartBacktraceIntegration(const char* rawUrl, const char* attributeKeys[], 
             [attachmentPaths addObject:[NSString stringWithUTF8String: attachments[index]]];
         }
     }
-    
+    debugMode = [Utils isDebuggerAttached];
     reporter = [[Backtrace alloc] initWithBacktraceUrl:rawUrl andAttributes: attributes andOomSupport:enableOomSupport andAttachments:attachmentPaths];
-    if( reporter){
+    if(reporter){
         [reporter start];
     }
 }
@@ -68,9 +69,13 @@ void GetAttributes(struct Entry** entries, int* size) {
     *size = count;
 }
 
-void NativeReport(const char* message, bool setMainThreadAsFaultingThread) {
+void NativeReport(const char* message, bool setMainThreadAsFaultingThread, bool ignoreIfDebugger) {
     // reporter is disabled
     if(!reporter) {
+        return;
+    }
+    if(ignoreIfDebugger && debugMode) {
+        NSLog(@"Backtrace: Ignoring report generated in the debug mode.");
         return;
     }
     [reporter nativeReport:message withMainThreadAsFaultingThread:setMainThreadAsFaultingThread];
