@@ -10,12 +10,14 @@
     OomWatcher* _oomWatcher;
     NSMutableArray* _attachmentsPaths;
     bool oomSupport;
+    bool disabled;
 }
 - (instancetype)initWithBacktraceUrl:(const char*) rawUrl andAttributes:(NSMutableDictionary*) attributes andOomSupport:(bool) enableOomSupport andAttachments:(NSMutableArray*) attachments;
 - (void) start;
 - (void) addAttribute:(const char*)key withValue:(const char*)value;
 - (void) nativeReport:(const char*) rawMessage withMainThreadAsFaultingThread:(bool) setMainThreadAsFaultingThread;
 - (void) sendPendingReports;
+- (void)disableIntegration;
 @end
 
 

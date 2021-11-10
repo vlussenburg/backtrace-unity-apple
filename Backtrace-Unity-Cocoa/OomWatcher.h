@@ -21,7 +21,11 @@
     
     // determine if debugger is available or not
     bool _debugMode;
+    
+    // determine if oom watcher have been disabled
+    bool _disabled;
 }
+- (void) disable;
 + (void) cleanup;
 - (instancetype)initWithCrashReporter:(PLCrashReporter*) reporter andAttributes:(BacktraceAttributes*) attributes andApi:(BacktraceApi*) api andAttachments:(NSMutableArray*) attachments ;
 - (void) startOomIntegration;

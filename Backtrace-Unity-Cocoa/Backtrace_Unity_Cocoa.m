@@ -92,3 +92,7 @@ void AddAttribute(char* key, char* value) {
 void Crash() {
     [Utils crash];
 }
+
+void Disable() {
+    [reporter disableIntegration];
+}

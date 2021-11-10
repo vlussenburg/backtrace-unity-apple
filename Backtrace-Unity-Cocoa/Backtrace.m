@@ -41,6 +41,8 @@ static Backtrace *instance;
 
 bool oomSupport;
 
+bool disabled;
+
 static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
     [OomWatcher cleanup];
     NSMutableDictionary *attributes = [BacktraceAttributes getCrashAttributes];
@@ -92,7 +94,7 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
             _oomWatcher = [[OomWatcher alloc] initWithCrashReporter:_crashReporter andAttributes:_backtraceAttributes andApi:_backtraceApi andAttachments:attachments];
         }
         instance = self;
-        
+        disabled = NO;
         
     }
     
@@ -147,7 +149,7 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleTerminateNotification)
+                                             selector:@selector(disableIntegration)
                                                  name:UIApplicationWillTerminateNotification
                                                object:nil];
     
@@ -167,9 +169,17 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
     [_oomWatcher foregroundNotification];
 }
 
-- (void)handleTerminateNotification {
+- (void)disableIntegration {
+    if(disabled == YES){
+        return;
+    }
     [OomWatcher cleanup];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    if(oomSupport){
+        [_oomWatcher disable];
+    }
+    disabled = YES;
+    NSLog(@"Backtrace: Backtrace native integration has been disabled.");
 }
 
 - (void)handleLowMemoryWarning {

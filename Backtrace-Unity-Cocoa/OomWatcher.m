@@ -24,6 +24,9 @@ NSTimeInterval _lastUpdateTime;
 // determine if debugger is available or not
 bool _debugMode;
 
+// determine if oom watcher have been disposed
+bool _disabled;
+
 - (instancetype) initWithCrashReporter:(PLCrashReporter *)reporter andAttributes:(BacktraceAttributes *)attributes andApi:(BacktraceApi *) api andAttachments:(NSMutableArray*) attachments {
     if (self = [super init]) {
         _lastUpdateTime = 0;
@@ -33,6 +36,7 @@ bool _debugMode;
         _oomAttachments = attachments;
         _applicationState = [NSMutableDictionary dictionary];
         _debugMode = [Utils isDebuggerAttached];
+        _disabled = NO;
         [self startOomIntegration];
     }
     
@@ -169,8 +173,15 @@ bool _debugMode;
     [manager removeItemAtPath:statusPath error: &error];
 }
 
+- (void) disable {
+    _disabled =  YES;
+}
+
 
 - (void) saveApplicationState {
+    if(_disabled == YES) {
+        return;
+    }
     NSString* statusPath = [Utils getDefaultOomStatusPath];
     [_applicationState writeToFile:statusPath atomically:YES];
 }
