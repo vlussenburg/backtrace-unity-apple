@@ -207,6 +207,7 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
     NSData *data = [_crashReporter loadPendingCrashReportDataAndReturnError:&error];
     if(error) {
         NSLog(@"Backtrace: Cannot load pending crash reports. Reason: %@ %@", error, [error userInfo]);
+        [_crashReporter purgePendingCrashReport];
     }
     if(!data) {
         return;
@@ -214,7 +215,8 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
     
     PLCrashReport *report = [[PLCrashReport alloc] initWithData: data error:&error];
     if(error) {
-        NSLog(@"Backtrace: Cannot initalize new report from old session. Reason: %@ %@", error, [error userInfo]);
+        NSLog(@"Backtrace: Cannot initialize a new report from the old application session. Reason: %@ %@", error, [error userInfo]);
+        [_crashReporter purgePendingCrashReport];
         return;
     }
     NSMutableDictionary* attributes =  [_backtraceAttributes readStoredAttributes:[Utils getDefaultReportPath]];
