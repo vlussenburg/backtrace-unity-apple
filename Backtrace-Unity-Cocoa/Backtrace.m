@@ -121,7 +121,12 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
 }
 
 - (void)nativeReport: (const char*) rawMessage withMainThreadAsFaultingThread:(bool) setMainThreadAsFaultingThread {
-    NSData *data = [_crashReporter generateLiveReport];
+    NSError* error;
+    NSData *data = [_crashReporter generateLiveReportAndReturnError:&error];
+    if(error) {
+        NSLog(@"Backtrace: Cannot create a native report. Reason: %@ %@", error, [error userInfo]);
+        return;
+    }
     NSMutableDictionary *attributes = [BacktraceAttributes getCrashAttributes];
     if(rawMessage != NULL) {
         [attributes setObject:[NSString stringWithUTF8String: rawMessage] forKey: @"error.message"];

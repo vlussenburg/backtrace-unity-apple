@@ -116,7 +116,12 @@ bool _disabled;
     
     NSData* resource = [state objectForKey:@"resource"];
     if(resource == nil) {
-        resource = [_crashReporter generateLiveReport];
+        NSError* error;
+        resource = [_crashReporter generateLiveReportAndReturnError:&error];
+        if(error) {
+            NSLog(@"Backtrace: Cannot create a native report for OOM integration. Reason: %@ %@", error, [error userInfo]);
+            return;
+        }
     }
     
     NSLog(@"Backtrace: App was closed due to OutOfMemory exception. Reporting state to Backtrace.");
