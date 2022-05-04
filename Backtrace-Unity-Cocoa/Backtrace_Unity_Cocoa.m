@@ -13,7 +13,7 @@ Backtrace *reporter;
 
 bool debugMode;
 //// Initialize native crash reporter handler and set basic Unity attributes that integration will store when exception occured.
-void StartBacktraceIntegration(const char* rawUrl, const char* attributeKeys[], const char* attributeValues[], const int size, bool enableOomSupport, const char* attachments[], const int attachmentSize) {
+void StartBacktraceIntegration(const char* rawUrl, const char* attributeKeys[], const char* attributeValues[], const int size, bool enableOomSupport, const char* attachments[], const int attachmentSize, bool enableClientSideUnwinding) {
     
     if(!rawUrl){
         return;
@@ -42,7 +42,7 @@ void StartBacktraceIntegration(const char* rawUrl, const char* attributeKeys[], 
         }
     }
     debugMode = [Utils isDebuggerAttached];
-    reporter = [[Backtrace alloc] initWithBacktraceUrl:rawUrl andAttributes: attributes andOomSupport:enableOomSupport andAttachments:attachmentPaths];
+    reporter = [[Backtrace alloc] initWithBacktraceUrl:rawUrl andAttributes: attributes andOomSupport:enableOomSupport andAttachments:attachmentPaths andClientSideUnwinding:enableClientSideUnwinding];
     if(reporter){
         [reporter start];
     }

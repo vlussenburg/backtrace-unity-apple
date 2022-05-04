@@ -55,7 +55,7 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
     NSLog(@"Backtrace: Received game crash. Storing attributes at path:%@", reportPath);
 }
 
-- (instancetype)initWithBacktraceUrl:(const char*) rawUrl andAttributes:(NSMutableDictionary*) attributes andOomSupport:(bool) enableOomSupport andAttachments:(NSMutableArray*) attachments {
+- (instancetype)initWithBacktraceUrl:(const char*) rawUrl andAttributes:(NSMutableDictionary*) attributes andOomSupport:(bool) enableOomSupport andAttachments:(NSMutableArray*) attachments andClientSideUnwinding:(bool) clientSideUnwinding {
     if(instance != nil) {
         return instance;
     }
@@ -75,7 +75,10 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
         
         // initialize Crash reporter
         PLCrashReporterSignalHandlerType signalHandlerType = PLCrashReporterSignalHandlerTypeBSD;
-        PLCrashReporterSymbolicationStrategy symbolicationStrategy = PLCrashReporterSymbolicationStrategyAll;
+        PLCrashReporterSymbolicationStrategy symbolicationStrategy = (clientSideUnwinding)
+            ? PLCrashReporterSymbolicationStrategyAll
+            : PLCrashReporterSymbolicationStrategyNone;
+        
         PLCrashReporterConfig *config = [[PLCrashReporterConfig alloc] initWithSignalHandlerType: signalHandlerType
                                                                            symbolicationStrategy: symbolicationStrategy];
         _crashReporter = [[PLCrashReporter alloc] initWithConfiguration: config];

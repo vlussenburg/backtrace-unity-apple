@@ -12,7 +12,7 @@
     bool oomSupport;
     bool disabled;
 }
-- (instancetype)initWithBacktraceUrl:(const char*) rawUrl andAttributes:(NSMutableDictionary*) attributes andOomSupport:(bool) enableOomSupport andAttachments:(NSMutableArray*) attachments;
+- (instancetype)initWithBacktraceUrl:(const char*) rawUrl andAttributes:(NSMutableDictionary*) attributes andOomSupport:(bool) enableOomSupport andAttachments:(NSMutableArray*) attachments andClientSideUnwinding:(bool) clientSideUnwinding;
 - (void) start;
 - (void) addAttribute:(const char*)key withValue:(const char*)value;
 - (void) nativeReport:(const char*) rawMessage withMainThreadAsFaultingThread:(bool) setMainThreadAsFaultingThread;
