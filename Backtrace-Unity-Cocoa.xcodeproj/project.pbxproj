@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -23,9 +23,7 @@
 /* Begin PBXBuildFile section */
 		0B08CB3C2558A0C800093E13 /* Backtrace_Unity_Cocoa_Mac.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B08CB3B2558A0C800093E13 /* Backtrace_Unity_Cocoa_Mac.h */; };
 		0B08CB3E2558A0C800093E13 /* Backtrace_Unity_Cocoa_Mac.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B08CB3D2558A0C800093E13 /* Backtrace_Unity_Cocoa_Mac.m */; };
-		0B08CB422558A0D900093E13 /* libCrashReporter-MacOSX-Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B08CB3325589D0C00093E13 /* libCrashReporter-MacOSX-Static.a */; };
 		0BD10AE72551878000275595 /* Backtrace_Unity_Cocoa.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD10AE62551878000275595 /* Backtrace_Unity_Cocoa.m */; };
-		0BD10AF22551B5F500275595 /* libCrashReporter-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BD10AF12551B5F400275595 /* libCrashReporter-iOS.a */; platformFilter = ios; };
 		0BDC455625E001490049D68A /* OomWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BDC455525E001490049D68A /* OomWatcher.m */; };
 		0BDC455825E0019B0049D68A /* BacktraceApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BDC455725E0019B0049D68A /* BacktraceApi.m */; };
 		0BF41F8D25E3C73600F42652 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF41F8C25E3C73600F42652 /* Utils.m */; };
@@ -46,13 +44,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0B08CB3325589D0C00093E13 /* libCrashReporter-MacOSX-Static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libCrashReporter-MacOSX-Static.a"; path = "../../Downloads/PLCrashReporter-Static-1.7.2/libCrashReporter-MacOSX-Static.a"; sourceTree = "<group>"; };
 		0B08CB392558A0C800093E13 /* libBacktrace-Unity-Cocoa-Mac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libBacktrace-Unity-Cocoa-Mac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B08CB3B2558A0C800093E13 /* Backtrace_Unity_Cocoa_Mac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Backtrace_Unity_Cocoa_Mac.h; sourceTree = "<group>"; };
 		0B08CB3D2558A0C800093E13 /* Backtrace_Unity_Cocoa_Mac.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Backtrace_Unity_Cocoa_Mac.m; sourceTree = "<group>"; };
 		0BD10AE22551878000275595 /* libBacktrace-Unity-Cocoa.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libBacktrace-Unity-Cocoa.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BD10AE62551878000275595 /* Backtrace_Unity_Cocoa.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Backtrace_Unity_Cocoa.m; sourceTree = "<group>"; };
-		0BD10AF12551B5F400275595 /* libCrashReporter-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libCrashReporter-iOS.a"; path = "../../Downloads/PLCrashReporter-Static-1.7.2/libCrashReporter-iOS.a"; sourceTree = "<group>"; };
 		0BDC455525E001490049D68A /* OomWatcher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OomWatcher.m; sourceTree = "<group>"; };
 		0BDC455725E0019B0049D68A /* BacktraceApi.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BacktraceApi.m; sourceTree = "<group>"; };
 		0BDC455B25E009B10049D68A /* BacktraceApi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BacktraceApi.h; sourceTree = "<group>"; };
@@ -70,7 +66,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B08CB422558A0D900093E13 /* libCrashReporter-MacOSX-Static.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,7 +73,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0BD10AF22551B5F500275595 /* libCrashReporter-iOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,8 +128,6 @@
 		0BD10AEE2551B44800275595 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0B08CB3325589D0C00093E13 /* libCrashReporter-MacOSX-Static.a */,
-				0BD10AF12551B5F400275595 /* libCrashReporter-iOS.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -279,6 +271,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3L37H443GZ;
 				EXECUTABLE_PREFIX = lib;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib/PLCrashReport-1.7.2",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -294,6 +290,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3L37H443GZ;
 				EXECUTABLE_PREFIX = lib;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib/PLCrashReport-1.7.2",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -352,9 +352,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "/Users/backtrace/Downloads/PLCrashReporter-Static-1.7.2/include";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/include/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LIBRARY_SEARCH_PATHS = "/Users/backtrace/Downloads/PLCrashReporter-Static-1.7.2";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/lib/**";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = NO;
@@ -412,9 +412,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "/Users/backtrace/Downloads/PLCrashReporter-Static-1.7.2/include";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/include/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LIBRARY_SEARCH_PATHS = "/Users/backtrace/Downloads/PLCrashReporter-Static-1.7.2";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/lib/**";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				OTHER_CFLAGS = (
@@ -434,7 +434,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3L37H443GZ;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				HEADER_SEARCH_PATHS = "/Users/backtrace/Downloads/PLCrashReporter-Static-1.7.2/include";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib/PLCrashReport-1.7.2",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -449,7 +452,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3L37H443GZ;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				HEADER_SEARCH_PATHS = "/Users/backtrace/Downloads/PLCrashReporter-Static-1.7.2/include";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib/PLCrashReport-1.7.2",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
