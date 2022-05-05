@@ -92,17 +92,10 @@ static void onCrash(siginfo_t *info, ucontext_t *uap, void *context) {
         [_crashReporter setCrashCallbacks:&cb];
         
         oomSupport = enableOomSupport;
-        // setup out of memory support
-        if (@available(iOS 15.3.1, *)) {
-           NSLog(@"Backtrace: The OOM support is disadbled for this version of iOS. Skipping OOM check.");
-            oomSupport = NO;
+        if(oomSupport) {
+            _oomWatcher = [[OomWatcher alloc] initWithCrashReporter:_crashReporter andAttributes:_backtraceAttributes andApi:_backtraceApi andAttachments:attachments];
         }
-        else {
-           NSLog(@"Backtrace: For iOS 15.3 and earlier, OOM Detection is enabled");
-            if(oomSupport) {
-                _oomWatcher = [[OomWatcher alloc] initWithCrashReporter:_crashReporter andAttributes:_backtraceAttributes andApi:_backtraceApi andAttachments:attachments];
-            }
-        }
+    
         instance = self;
         disabled = NO;
         
