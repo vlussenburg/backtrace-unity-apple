@@ -89,10 +89,10 @@ void AddAttribute(char* key, char* value) {
     [reporter addAttribute:key withValue:value];
     
 }
-void Crash() {
+void Crash(void) {
     [Utils crash];
 }
 
-void Disable() {
+void Disable(void) {
     [reporter disableIntegration];
 }

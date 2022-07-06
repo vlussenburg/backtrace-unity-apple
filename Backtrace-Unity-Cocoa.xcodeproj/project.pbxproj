@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -29,6 +29,7 @@
 		0BF41F8D25E3C73600F42652 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF41F8C25E3C73600F42652 /* Utils.m */; };
 		0BF41F9025E3F99400F42652 /* BacktraceAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF41F8F25E3F99400F42652 /* BacktraceAttributes.m */; };
 		0BF41F9325E5358400F42652 /* Backtrace.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF41F9225E5358300F42652 /* Backtrace.m */; };
+		5BE70D8528759AE900B23765 /* libCrashReporter-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BE70D8428759AE900B23765 /* libCrashReporter-iOS.a */; platformFilter = ios; settings = {ATTRIBUTES = (Required, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -59,6 +60,7 @@
 		0BF41F8F25E3F99400F42652 /* BacktraceAttributes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BacktraceAttributes.m; sourceTree = "<group>"; };
 		0BF41F9125E5353100F42652 /* Backtrace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Backtrace.h; sourceTree = "<group>"; };
 		0BF41F9225E5358300F42652 /* Backtrace.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Backtrace.m; sourceTree = "<group>"; };
+		5BE70D8428759AE900B23765 /* libCrashReporter-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libCrashReporter-iOS.a"; path = "lib/PLCrashReport/libCrashReporter-iOS.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BE70D8528759AE900B23765 /* libCrashReporter-iOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,6 +131,7 @@
 		0BD10AEE2551B44800275595 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5BE70D8428759AE900B23765 /* libCrashReporter-iOS.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -236,7 +240,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# 1: Declare variables\nRESULT_DIR=\"Universal-release\"\n\nBUILD_DIR_SIMULATOR=\"Release-iphonesimulator\"\nBUILD_DIR_DEVICE=\"Release-iphoneos\"\n\nLIB_NAME=\"Backtrace-Unity-Cocoa\"\nLIB_BINARY_NAME=\"lib$LIB_NAME.a\"\nLIB_BINARY_NAME_SIMULATOR=\"lib$LIB_NAME-simulator.a\"\nLIB_BINARY_NAME_DEVICE=\"lib$LIB_NAME-device.a\"\n\n\n# 2: BUILD\n#\n# Build for simulator\nxcodebuild -target \"${PROJECT_NAME}\" -arch x86_64  -configuration ${CONFIGURATION} BUILD_DIR=\"${BUILD_DIR_SIMULATOR}\" BUILD_ROOT=\"${BUILD_ROOT}\" clean build -sdk iphonesimulator\n\n\n# Build for device\nxcodebuild -target $LIB_NAME ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} clean build -sdk iphoneos  BUILD_DIR=\"${BUILD_DIR_DEVICE}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n\n# 3: OPERATE THE BINARIES\n#\n# Move to the build directory\ncd $BUILD_DIR\n\n# Completely delete the result of the previous build if any\n# Suppress the error to avoid unnecessary logs\n\nrm -rf $BUILD_DIR/$RESULT_DIR 2> /dev/null\n\n# Create a new result directory\nmkdir $RESULT_DIR\n\n# Copy simulator's binary file to the result dir and rename it\ncp ./$BUILD_DIR_SIMULATOR/$LIB_BINARY_NAME ./$RESULT_DIR/$LIB_BINARY_NAME_SIMULATOR\n\n# Copy devices's binary file to the result dir and rename it\ncp ./$BUILD_DIR_DEVICE/$LIB_BINARY_NAME ./$RESULT_DIR/$LIB_BINARY_NAME_DEVICE\n\n# Make the library \"fat\", means \"universal\"\nlipo -create ./$RESULT_DIR/$LIB_BINARY_NAME_SIMULATOR ./$RESULT_DIR/$LIB_BINARY_NAME_DEVICE -output ./$RESULT_DIR/$LIB_BINARY_NAME\n\n# Delete simulator's binary file\n#rm ./$RESULT_DIR/$LIB_BINARY_NAME_SIMULATOR\n\n# Delete device's binary file\n#rm ./$RESULT_DIR/$LIB_BINARY_NAME_DEVICE\n\n# Delete build directory\n#rm -rf $PROJECT_DIR/build\n";
+			shellScript = "# 1: Declare variables\nRESULT_DIR=\"Universal-release\"\n\nBUILD_DIR_SIMULATOR=\"Release-iphonesimulator\"\nBUILD_DIR_DEVICE=\"Release-iphoneos\"\n\nLIB_NAME=\"Backtrace-Unity-Cocoa\"\nLIB_BINARY_NAME=\"lib$LIB_NAME.a\"\nLIB_BINARY_NAME_SIMULATOR=\"lib$LIB_NAME-simulator.a\"\nLIB_BINARY_NAME_DEVICE=\"lib$LIB_NAME-device.a\"\n\n\n# 2: BUILD\n#\n# Build for simulator\n\n# build only for i386 and x86_64 - we only want to support simulators\n# and avoid possible issues with lipo and duplicates architectures\n# refs: https://stackoverflow.com/a/30119865\nxcodebuild -project \"${PROJECT_DIR}/Backtrace-Unity-Cocoa.xcodeproj\" -target ${PROJECT_NAME} ONLY_ACTIVE_ARCH=NO -configuration Release -sdk iphonesimulator BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\nxcodebuild -project \"${PROJECT_DIR}/Backtrace-Unity-Cocoa.xcodeproj\" -target ${PROJECT_NAME} ONLY_ACTIVE_ARCH=NO -configuration Release -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\"  BUILD_ROOT=\"${BUILD_ROOT}\"\n\n# 3: OPERATE THE BINARIES\n#\n# Move to the build directory\ncd $BUILD_DIR\n\n# Completely delete the result of the previous build if any\n# Suppress the error to avoid unnecessary logs\n\nrm -rf $BUILD_DIR/$RESULT_DIR 2> /dev/null\n\n# Create a new result directory\nmkdir $RESULT_DIR\n\n# Copy simulator's binary file to the result dir and rename it\ncp ./$BUILD_DIR_SIMULATOR/$LIB_BINARY_NAME ./$RESULT_DIR/$LIB_BINARY_NAME_SIMULATOR\n\n# Copy devices's binary file to the result dir and rename it\ncp ./$BUILD_DIR_DEVICE/$LIB_BINARY_NAME ./$RESULT_DIR/$LIB_BINARY_NAME_DEVICE\n\n# Make the library \"fat\", means \"universal\"\nlipo -create -output ./$RESULT_DIR/$LIB_BINARY_NAME ./$RESULT_DIR/$LIB_BINARY_NAME_SIMULATOR ./$RESULT_DIR/$LIB_BINARY_NAME_DEVICE \n\n# Delete simulator's binary file\n#rm ./$RESULT_DIR/$LIB_BINARY_NAME_SIMULATOR\n\n# Delete device's binary file\n#rm ./$RESULT_DIR/$LIB_BINARY_NAME_DEVICE\n\n# Delete build directory\n#rm -rf $PROJECT_DIR/build\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -273,7 +277,7 @@
 				EXECUTABLE_PREFIX = lib;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/lib/PLCrashReport-1.7.2",
+					"$(PROJECT_DIR)/lib/PLCrashReport",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				ONLY_ACTIVE_ARCH = YES;
@@ -292,7 +296,7 @@
 				EXECUTABLE_PREFIX = lib;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/lib/PLCrashReport-1.7.2",
+					"$(PROJECT_DIR)/lib/PLCrashReport",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -431,14 +435,18 @@
 		0BD10AEC2551878000275595 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"ARCHS[sdk=iphonesimulator*]" = x86_64;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3L37H443GZ;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/lib/PLCrashReport-1.7.2",
+					"$(PROJECT_DIR)/lib/PLCrashReport",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -449,18 +457,25 @@
 		0BD10AED2551878000275595 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"ARCHS[sdk=*]" = "$(ARCHS_STANDARD)";
+				"ARCHS[sdk=iphonesimulator*]" = x86_64;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3L37H443GZ;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/lib/PLCrashReport-1.7.2",
+					"$(PROJECT_DIR)/lib/PLCrashReport",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 arm64e armv7 armv7s";
+				"VALID_ARCHS[sdk=iphoneos*]" = "arm64 arm64e armv7 armv7s";
+				"VALID_ARCHS[sdk=iphonesimulator*]" = x86_64;
 			};
 			name = Release;
 		};
